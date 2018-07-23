@@ -19,17 +19,22 @@ export default class LoginScreen extends React.Component {
   }
 
   registerPressed() {
-    Logger.log("Submit pressed");
     let params = {email: this.state.email,
       password: this.state.password,
       password_confirmation: this.state.password_confirmation,
-      confirm_success_url: 'http://www.ollyollyapp.com'}
+      confirm_success_url: null,
+      confirm_success_url: 'https://www.google.com'}
+
+    Logger.log(this.state);
 
     ApiService.postRequest('auth', params)
       .then((responseData) => {
-        Logger.log('Login successful!');
+        Logger.log('Registration successful!');
+        this.props.navigation.navigate('Dashboard');
       })
       .catch((error) => {
+        Logger.logError(error);
+        Logger.log('Registration failed');
         this.setState({showErrors: true});
       });
   }
